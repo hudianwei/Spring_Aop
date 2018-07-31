@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--创建目标类-->
+    <bean id="actionImpl" class="com.ActionImpl.ActionImpl"></bean>
+    <!--创建切面类-->
+    <bean id="newaction" class="com.ActionImpl.MyNewAction"></bean>
+    <!--aop编程-->
+    <aop:config>
+        <!--切入点表达式-->
+        <aop:pointcut id="myPointCut" expression="execution(* com.ActionImpl.*.*(..))"></aop:pointcut>
+        <aop:aspect ref="newaction">
+            <!--配置前置通知，注意 method 的值要和 对应切面的类方法名称相同-->
+            <aop:before method="before" pointcut-ref="myPointCut"></aop:before>
+            <aop:after method="after" pointcut-ref="myPointCut"></aop:after>
+        </aop:aspect>
+    </aop:config>
+</beans>
